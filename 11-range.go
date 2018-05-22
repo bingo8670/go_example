@@ -1,4 +1,4 @@
-// range迭代各种数据结构中的元素。
+// range 遍历，迭代各种数据结构中的元素。
 package main
 import "fmt"
 func main() {
@@ -16,6 +16,7 @@ func main() {
         }
     }
 
+// range 在 map 中迭代键值对。
     kvs := map[string]string{"a": "apple", "b": "banana"}
     for k, v := range kvs {
         fmt.Printf("%s -> %s\n", k, v)
@@ -25,10 +26,10 @@ func main() {
         fmt.Println("key:", k)
     }
 
+// range 在字符串中迭代 unicode 编码。第一个返回值是rune 的起始字节位置，然后第二个是 rune 自己。
     for i, c := range "go" {
         fmt.Println(i, c)
     }
-    // range字符串迭代Unicode代码点。第一个值是第一个值rune和第二个rune自身的起始字节索引。
 }
 
 

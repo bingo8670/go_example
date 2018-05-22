@@ -3,12 +3,12 @@ package main
 
 import "fmt"
 import "math"
-
+// const 用于声明一个常量。
 const s string = "constant"
 
 func main() {
 	fmt.Println(s)
-
+// const 语句可以出现在任何 var 语句可以出现的地方
 	const n = 500000000
 
 	const d = 3e20 / n

@@ -3,22 +3,19 @@ package main
 import "fmt"
 func main() {
     i := 1
-
-// for是Go唯一的循环构造。
-
+// 最常用的方式，带单个循环条件。
     for i <= 3 {
         fmt.Println(i)
         i = i + 1
     }
-
+// 经典的初始化/条件/后续形式 for 循环。
     for j := 7; j <= 9; j++ {
         fmt.Println(j)
     }
-
+// 不带条件的 for 循环将一直执行，直到在循环体内使用了 break 或者 return 来跳出循环。
     for {
         fmt.Println("loop")
         break
-        // break 方法用于停止该无限循环；
     }
 
     for n := 0; n <= 5; n++ {
