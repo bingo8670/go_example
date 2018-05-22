@@ -1,3 +1,4 @@
+// 在Go中，变量被显式声明并被编译器用于例如检查函数调用的类型正确性。
 package main
 
 import "fmt"
@@ -19,7 +20,7 @@ func main() {
 	fmt.Println(f)
 }
 
-// $ go run variables.go
+// $ go run 03-variables.go
 // initial
 // 1 2
 // true

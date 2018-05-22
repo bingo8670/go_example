@@ -1,3 +1,4 @@
+// for是Go中唯一的循环构造。
 package main
 import "fmt"
 func main() {
@@ -30,7 +31,7 @@ func main() {
 }
 
 
-// $ go run for.go
+// $ go run 05-for.go
 // 1
 // 2
 // 3

@@ -6,7 +6,7 @@ func main() {
 	fmt.Printf("Hello, world.\n")
 }
 
-// $ go run hello-world.go
+// $ go run 01-hello-world.go
 // hello world
 // $ go build hello-world.go
 // $ ./hello-world

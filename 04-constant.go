@@ -1,3 +1,4 @@
+// Go支持字符，字符串，布尔值和数值的常量。
 package main
 
 import "fmt"
@@ -18,7 +19,7 @@ func main() {
 }
 
 
-// $ go run constant.go 
+// $ go run 04-constant.go
 // constant
 // 6e+11
 // 600000000000
