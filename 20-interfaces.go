@@ -1,8 +1,9 @@
-// 接口被命名为方法签名的集合。
+// 接口 是方法特征的命名集合。
 package main
 import "fmt"
 import "math"
 
+// 这里是一个几何体的基本接口。
 type geometry interface {
     area() float64
     perim() float64
@@ -29,17 +30,18 @@ func (c circle) perim() float64 {
     return 2 * math.Pi * c.radius
 }
 
+// 如果一个变量的是接口类型，那么我们可以调用这个被命名的接口中的方法。这里有一个一通用的 measure 函数，利用这个特性，它可以用在任何 geometry 上。
 func measure(g geometry) {
     fmt.Println(g)
     fmt.Println(g.area())
     fmt.Println(g.perim())
 }
-// 如果变量具有接口类型，那么我们可以调用指定接口中的方法。这是一个通用的度量函数，利用它可以处理任何几何图形。
 
 func main() {
     r := rect{width: 3, height: 4}
     c := circle{radius: 5}
 
+// 结构体类型 circle 和 rect 都实现了 geometry接口，所以我们可以使用它们的实例作为 measure 的参数。
     measure(r)
     measure(c)
 }

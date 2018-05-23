@@ -12,6 +12,7 @@ func intSeq() func() int {
 }
 func main() {
 
+// 我们调用 intSeq 函数，将返回值（也是一个函数）赋给nextInt。这个函数的值包含了自己的值 i，这样在每次调用 nextInt 时都会更新 i 的值。
     nextInt := intSeq()
 
     fmt.Println(nextInt())

@@ -2,6 +2,7 @@
 package main
 import "fmt"
 
+// 这里的 person 结构体包含了 name 和 age 两个字段。
 type person struct {
     name string
     age  int
@@ -12,8 +13,10 @@ func main() {
 
     fmt.Println(person{name: "Alice", age: 30})
 
+// 省略的字段将被初始化为零值。
     fmt.Println(person{name: "Fred"})
 
+// & 前缀生成一个结构体指针。
     fmt.Println(&person{name: "Ann", age: 40})
 
     s := person{name: "Sean", age: 50}
