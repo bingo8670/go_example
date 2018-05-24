@@ -1,4 +1,4 @@
-// Go的select可以让你等待多个频道的操作。把goroutines和channel与select结合起来是Go的一个强大功能。
+// Go 的通道选择器 让你可以同时等待多个通道操作。Go 协程和通道以及选择器的结合是 Go 的一个强大特性。
 package main
 import "time"
 import "fmt"
@@ -7,6 +7,7 @@ func main() {
     c1 := make(chan string)
     c2 := make(chan string)
 
+// 各个通道将在若干时间后接收一个值，这个用来模拟例如并行的 Go 协程中阻塞的 RPC 操作
     go func() {
         time.Sleep(1 * time.Second)
         c1 <- "one"
@@ -16,6 +17,7 @@ func main() {
         c2 <- "two"
     }()
 
+// 我们使用 select 关键字来同时等待这两个值，并打印各自接收到的值。
     for i := 0; i < 2; i++ {
         select {
         case msg1 := <-c1:
