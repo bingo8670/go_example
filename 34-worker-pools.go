@@ -1,8 +1,9 @@
-// 在这个例子中，我们将看看如何使用goroutines和channels来实现一个工作池。
+// 在这个例子中，我们将看到如何使用 Go 协程和通道实现一个工作池 。
 package main
 import "fmt"
 import "time"
 
+// 这是我们将要在多个并发实例中支持的任务了。这些执行者将从 jobs 通道接收任务，并且通过 results 发送对应的结果。我们将让每个任务间隔 1s 来模仿一个耗时的任务。
 func worker(id int, jobs <-chan int, results chan<- int) {
     for j := range jobs {
         fmt.Println("worker", id, "started  job", j)
@@ -11,12 +12,14 @@ func worker(id int, jobs <-chan int, results chan<- int) {
         results <- j * 2
     }
 }
+
+// 为了使用 worker 工作池并且收集他们的结果，我们需要2 个通道。
 func main() {
 
     jobs := make(chan int, 100)
     results := make(chan int, 100)
     // 需要向他们发送工作并收集他们的结果。我们为此制作了2个频道。
-
+// 这里启动了 3 个 worker，初始是阻塞的，因为还没有传递任务。
     for w := 1; w <= 3; w++ {
         go worker(w, jobs, results)
     }
