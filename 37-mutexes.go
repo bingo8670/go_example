@@ -1,4 +1,4 @@
-// 在前面的例子中，我们看到了如何用原子操作来管理简单的计数器状态。对于更复杂的状态，我们可以使用互斥锁跨多个goroutines安全地访问数据。
+// 在前面的例子中，我们看到了如何使用原子操作来管理简单的计数器。对于更加复杂的情况，我们可以使用一个互斥锁来在 Go 协程间安全的访问数据。
 package main
 import (
     "fmt"
@@ -9,13 +9,16 @@ import (
 )
 func main() {
 
+// 在我们的例子中，state 是一个 map。
     var state = make(map[int]int)
 
+// 这里的 mutex 将同步对 state 的访问。
     var mutex = &sync.Mutex{}
 // 跟踪我们做了多少次读写操作。
     var readOps uint64
     var writeOps uint64
-// 启动100个goroutines来执行对该状态的重复读取，每个goroutine每毫秒执行一次。
+
+// 这里我们运行 100 个 Go 协程来重复读取 state。
     for r := 0; r < 100; r++ {
         go func() {
             total := 0
@@ -46,6 +49,7 @@ func main() {
         }()
     }
 
+// 为了确保这个 Go 协程不会在调度中饿死，我们在每次操作后明确的使用 runtime.Gosched()进行释放。这个释放一般是自动处理的，像例如每个通道操作后或者 time.Sleep 的阻塞调用后相似，但是在这个例子中我们需要手动的处理。
     time.Sleep(time.Second)
 
     readOpsFinal := atomic.LoadUint64(&readOps)

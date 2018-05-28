@@ -1,4 +1,4 @@
-// 在前面的例子中，我们使用显式锁定互斥体来跨多个goroutines同步对共享状态的访问。另一个选择是使用goroutines和通道的内置同步功能来实现相同的结果。这种基于频道的方法与Go的共享内存的想法保持一致，即通过沟通并让每条数据拥有1个goroutine。
+// 在前面的例子中，我们用互斥锁进行了明确的锁定来让共享的state 跨多个 Go 协程同步访问。另一个选择是使用内置的 Go协程和通道的的同步特性来达到同样的效果。这个基于通道的方法和 Go 通过通信以及 每个 Go 协程间通过通讯来共享内存，确保每块数据有单独的 Go 协程所有的思路是一致的。
 package main
 import (
     "fmt"
@@ -7,6 +7,7 @@ import (
     "time"
 )
 
+// 在这个例子中，state 将被一个单独的 Go 协程拥有。这就能够保证数据在并行读取时不会混乱。为了对 state 进行读取或者写入，其他的 Go 协程将发送一条数据到拥有的 Go协程中，然后接收对应的回复。结构体 readOp 和 writeOp封装这些请求，并且是拥有 Go 协程响应的一个方式。
 type readOp struct {
     key  int
     resp chan int
@@ -17,13 +18,15 @@ type writeOp struct {
     resp chan bool
 }
 func main() {
-// 跟踪我们做了多少次读写操作。
+// 和前面一样，我们将计算我们执行操作的次数。
     var readOps uint64
     var writeOps uint64
 
+// reads 和 writes 通道分别将被其他 Go 协程用来发布读和写请求。
     reads := make(chan *readOp)
     writes := make(chan *writeOp)
-// 该goroutine在读取和写入通道上重复选择，在请求到达时对其进行响应。通过首先执行所请求的操作并且然后在响应通道上发送值resp以指示成功（以及在读取的情况下期望的值）来执行响应。
+
+// 这个就是拥有 state 的那个 Go 协程，和前面例子中的map一样，不过这里是被这个状态协程私有的。这个 Go 协程反复响应到达的请求。先响应到达的请求，然后返回一个值到响应通道 resp 来表示操作成功（或者是 reads 中请求的值）
     go func() {
         var state = make(map[int]int)
         for {
@@ -36,7 +39,8 @@ func main() {
             }
         }
     }()
-// 每次读取都需要构建一个readOp，通过读取通道发送，并通过提供的resp通道接收结果。
+    
+// 启动 100 个 Go 协程通过 reads 通道发起对 state 所有者Go 协程的读取请求。每个读取请求需要构造一个 readOp，发送它到 reads 通道中，并通过给定的 resp 通道接收结果。
     for r := 0; r < 100; r++ {
         go func() {
             for {
