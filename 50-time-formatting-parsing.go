@@ -34,7 +34,7 @@ func main() {
     _, e = time.Parse(ansic, "8:41PM")
     p(e)
 }
-// $ go run time-formatting-parsing.go
+// $ go run 50-time-formatting-parsing.go
 // 2014-04-15T18:00:15-07:00
 // 2012-11-01 22:08:41 +0000 +0000
 // 6:00PM
