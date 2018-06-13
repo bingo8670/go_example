@@ -42,7 +42,7 @@ func main() {
 }
 // 运行我们的 URL 解析程序，显示全部我们提取的 URL 的不同数据块。
 
-// $ go run url-parsing.go
+// $ go run 53-url-parsing.go
 // postgres
 // user:pass
 // user
